@@ -12,7 +12,7 @@ export default async function BlogPage() {
           Design & Code
         </h1>
         <p className="text-xl text-slate-500">
-          Moje przemyślenia o technologii, hostowane na Cloudflare.
+          Moje przemyślenia o technologii, hostowane na Cloudflare. Jeszcze ten deploy...
         </p>
       </header>
 
