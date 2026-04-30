@@ -8,6 +8,9 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
+// Rewalidacja co 3600 sekund (1 godzina)
+export const revalidate = 3600;
+
 export default async function PostPage({ params }: Props) {
   const { slug: encodedSlug } = await params;
   const slug = decodeURIComponent(encodedSlug);

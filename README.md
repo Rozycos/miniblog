@@ -17,4 +17,7 @@ bun dev
 For cloudflare deploy: https://developers.cloudflare.com/workers/framework-guides/web-apps/nextjs/
 
 and run:
+pnpm run deploy 
+or 
+pnpm cf:build
 pnpm wrangler deploy

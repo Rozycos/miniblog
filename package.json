@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "cf:build": "opennextjs-cloudflare build"
+    "cf:build": "opennextjs-cloudflare build",
+    "deploy": "pnpm cf:build && pnpm wrangler deploy"
   },
   "dependencies": {
     "@opennextjs/cloudflare": "^1.19.5",
