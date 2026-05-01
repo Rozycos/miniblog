@@ -73,4 +73,10 @@ export interface Post {
   createdAt: string;
   updatedAt: string;
   author: Author;
+  meta?: {
+    title?: string;
+    description?: string;
+    // Używamy interfejsu Media, bo to osobna kolekcja
+    image?: Media | null; 
+  };
 }

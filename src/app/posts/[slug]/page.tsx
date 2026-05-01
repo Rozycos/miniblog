@@ -4,9 +4,22 @@ import { notFound } from 'next/navigation';
 import { getPostBySlug } from '@/lib/payload';
 // Importujemy komponent RichText z nowej biblioteki
 import { RichText } from '@payloadcms/richtext-lexical/react';
+import { generatePostMetadata } from '@/lib/seo' // importujemy nasz helper
+import { Metadata } from 'next'
 
 interface Props {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug: encodedSlug } = await params
+  const slug = decodeURIComponent(encodedSlug)
+  const post = await getPostBySlug(slug)
+
+  if (!post) return { title: 'Post nie odnaleziony' }
+
+  // Cała brudna robota dzieje się w jednej linijce:
+  return generatePostMetadata(post)
 }
 
 export const revalidate = 3600;
