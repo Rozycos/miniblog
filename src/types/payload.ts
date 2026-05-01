@@ -1,3 +1,5 @@
+import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
+
 export interface Media {
   id: string;
   url: string;
@@ -66,7 +68,7 @@ export interface Post {
   status: 'published' | 'draft';
   heroImage: Media;
   excerpt: string;
-  content: LexicalContent; // Zamiast any używamy zdefiniowanej struktury
+  content: SerializedEditorState; 
   publishedDate?: string;
   createdAt: string;
   updatedAt: string;

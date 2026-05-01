@@ -2,13 +2,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getPostBySlug } from '@/lib/payload';
-import { LexicalNode, LexicalChild } from '@/types/payload';
+// Importujemy komponent RichText z nowej biblioteki
+import { RichText } from '@payloadcms/richtext-lexical/react';
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
-// Rewalidacja co 3600 sekund (1 godzina)
 export const revalidate = 3600;
 
 export default async function PostPage({ params }: Props) {
@@ -21,7 +21,6 @@ export default async function PostPage({ params }: Props) {
     notFound();
   }
 
-  // Wyciągamy dane obrazka z nowej struktury JSON
   const hero = post.heroImage;
   const imageUrl = hero?.url || '';
   const altText = hero?.alt || post.title;
@@ -55,7 +54,6 @@ export default async function PostPage({ params }: Props) {
         </h1>
       </header>
 
-      {/* Główne zdjęcie z Cloudflare R2 */}
       {imageUrl && (
         <div className="relative aspect-video mb-12 rounded-2xl overflow-hidden bg-slate-100 shadow-lg border border-slate-200">
           <Image
@@ -69,32 +67,12 @@ export default async function PostPage({ params }: Props) {
         </div>
       )}
 
-      {/* Renderowanie treści (Lexical Rich Text) */}
+      {/* --- NOWE RENDEROWANIE TREŚCI --- */}
       <div className="prose prose-slate lg:prose-xl max-w-none">
-        {post.content?.root?.children?.map((node: LexicalNode, index: number) => {
-          if (node.type === 'paragraph') {
-            return (
-              <p key={index} className="mb-4 text-slate-700 leading-relaxed">
-                {node.children?.map((child: LexicalChild, i: number) => {
-                  // Bezpieczne sprawdzenie formatowania bitowego dla Bold
-                  const isBold = typeof child.format === 'number' && (child.format & 1);
-                  
-                  return (
-                    <span 
-                      key={i} 
-                      className={isBold ? 'font-bold text-slate-900' : ''}
-                    >
-                      {child.text}
-                    </span>
-                  );
-                })}
-              </p>
-            );
-          }
-          // Możesz tu dodać obsługę innych typów (heading, list) w przyszłości
-          return null;
-        })}
+        {/* Wystarczy podać post.content. RichText zajmie się resztą. */}
+        {post.content && <RichText data={post.content} />}
       </div>
+      {/* ------------------------------ */}
       
       <footer className="mt-16 pt-8 border-t border-slate-100">
         <p className="text-sm text-slate-400 italic">
