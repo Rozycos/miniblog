@@ -1,28 +1,32 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { getPosts } from '@/lib/payload';
-// import { Metadata } from 'next';
+import { Metadata } from 'next';
 
-// jeśli chcę mieć meta i title dla głównej strony, inny niż w layout.tsx
-// export const metadata: Metadata = {
-//   title: 'Mój Blog - Najnowsze Artykuły',
-//   description: 'Zapraszam do czytania moich wpisów na temat technologii i nie tylko.',
-// };
+export const metadata: Metadata = {
+  title: 'Mój Blog - Najnowsze Artykuły',
+  description: 'Zapraszam do czytania moich wpisów na temat technologii i nie tylko.',
+};
 
 export default async function BlogPage() {
   const posts = await getPosts();
 
   return (
     <main className="max-w-6xl mx-auto px-6 py-20 font-sans">
+      <Link 
+          href="/" 
+          className="text-sm text-slate-500 hover:text-slate-800 mb-8 inline-block transition-colors"
+        >
+          ← Strona Główna
+      </Link>
       <header className="mb-16">
         <h1 className="text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
-          Design & Code
+          LISTA ARTUKUŁÓW
         </h1>
         <p className="text-xl text-slate-500">
-          Moje przemyślenia o technologii, hostowane na Cloudflare. Jeszcze ten deploy...
+          Oto lista wszystkich artykułów do przeczytania:
         </p>
       </header>
-
       <div className="grid grid-cols-1 gap-12">
         {posts.map((post) => (
           <article key={post.id} className="group flex flex-col md:flex-row gap-8 items-start">
