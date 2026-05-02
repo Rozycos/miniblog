@@ -32,11 +32,12 @@ export default async function PostPage({ params }: Props) {
   return (
     <article className="max-w-3xl mx-auto px-6 py-20 font-sans">
       <Link 
-          href="/blog" 
+          href="/" 
           className="text-sm text-slate-500 hover:text-slate-800 mb-8 inline-block transition-colors"
         >
-          ← Strona Główna{' '}
+          ← Strona Główna
       </Link>
+      {' '}
       <Link 
         href="/blog" 
         className="text-sm text-slate-500 hover:text-slate-800 mb-8 inline-block transition-colors"
