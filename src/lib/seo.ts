@@ -1,5 +1,7 @@
 import { Metadata } from 'next'
 import { Post } from '@/types/payload'
+import { getPostBySlug } from './payload'
+import { notFound } from 'next/navigation'
 
 export function generatePostMetadata(post: Post): Metadata {
   const seoTitle = post.meta?.title || post.title
@@ -26,4 +28,12 @@ export function generatePostMetadata(post: Post): Metadata {
       images: seoImage ? [seoImage] : [],
     },
   }
+}
+
+export async function getPostMetadataBySlug(slug: string): Promise<Metadata> {
+  const post = await getPostBySlug(slug)
+  if (!post) { 
+    notFound()
+  }
+  return generatePostMetadata(post)
 }

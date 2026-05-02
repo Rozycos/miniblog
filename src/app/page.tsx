@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { getPosts } from '@/lib/payload';
+//import { Metadata } from 'next';
 
 export default async function BlogPage() {
   const posts = await getPosts();

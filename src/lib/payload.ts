@@ -19,13 +19,15 @@ export async function getPosts(): Promise<Post[]> {
  * Pobiera pojedynczy post na podstawie sluga
  */
 export async function getPostBySlug(slug: string): Promise<Post | null> {
-  const res = await fetch(`${PAYLOAD_API_URL}/posts?where[slug][equals]=${slug}&depth=2`, {
+  // Dekodujemy tutaj raz a dobrze
+  const cleanSlug = decodeURIComponent(slug);
+  
+  const res = await fetch(`${PAYLOAD_API_URL}/posts?where[slug][equals]=${cleanSlug}&depth=2`, {
     next: { revalidate: 60 }
   });
 
   if (!res.ok) throw new Error('Błąd podczas pobierania posta');
   const data = await res.json();
   
-  // Zwracamy pierwszy znaleziony post lub null jeśli puste
   return data.docs?.[0] || null;
 }
