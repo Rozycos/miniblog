@@ -10,7 +10,7 @@ import { getPosts } from '@/lib/payload';
 // };
 
 export default async function BlogPage() {
-  const posts = await getPosts();
+  const { posts } = await getPosts(1);
 
   return (
     <main className="max-w-6xl mx-auto px-6 py-20 font-sans">

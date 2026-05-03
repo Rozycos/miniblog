@@ -1,4 +1,5 @@
 import { Post } from '@/types/payload';
+export type { Post };
 
 const PAYLOAD_API_URL = process.env.PAYLOAD_API_URL;
 if (!PAYLOAD_API_URL) {
@@ -6,16 +7,25 @@ if (!PAYLOAD_API_URL) {
 }
 
 /**
- * Pobiera listę wszystkich opublikowanych postów
+ * Pobiera listę wszystkich opublikowanych postów + paginator (default 2)
  */
-export async function getPosts(): Promise<Post[]> {
-  const res = await fetch(`${PAYLOAD_API_URL}/posts?where[status][equals]=published&sort=-publishedDate&depth=2`, {
-    next: { revalidate: 60 }
-  });
+export async function getPosts(page: number = 1, limit: number = 2) {
+  const res = await fetch(
+    `${process.env.PAYLOAD_API_URL}/posts?where[status][equals]=published&sort=-publishedDate&depth=2&page=${page}&limit=${limit}`,
+    { next: { revalidate: 60 } }
+  );
 
-  if (!res.ok) throw new Error('Błąd podczas pobierania listy postów');
+  if (!res.ok) throw new Error('Błąd pobierania postów');
+
   const data = await res.json();
-  return data.docs;
+
+  return {
+    posts: data.docs as Post[],
+    totalPages: data.totalPages,
+    hasNextPage: data.hasNextPage,
+    hasPrevPage: data.hasPrevPage,
+    currentPage: data.page,
+  };
 }
 
 /**
