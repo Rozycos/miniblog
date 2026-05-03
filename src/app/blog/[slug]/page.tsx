@@ -42,9 +42,9 @@ export default async function PostPage({ params }: Props) {
               day: 'numeric'
             })}
           </time>
-          {post.author && (
+          {post.author?.username && (
             <span className="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">
-              Autor: {post.author.email}
+              Autor: {post.author.username}
             </span>
           )}
         </div>
