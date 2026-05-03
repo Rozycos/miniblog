@@ -1,6 +1,9 @@
 import { Post } from '@/types/payload';
 
-const PAYLOAD_API_URL = 'https://payloadadmin.vercel.app/api';
+const PAYLOAD_API_URL = process.env.PAYLOAD_API_URL;
+if (!PAYLOAD_API_URL) {
+  throw new Error("Brak zdefiniowanej zmiennej PAYLOAD_API_URL w pliku .env");
+}
 
 /**
  * Pobiera listę wszystkich opublikowanych postów
