@@ -7,6 +7,7 @@ import { RichText } from '@payloadcms/richtext-lexical/react';
 //import { generatePostMetadata } from '@/lib/seo' // importujemy nasz helper
 import { getPostMetadataBySlug } from '@/lib/seo'
 import { Metadata } from 'next'
+import Breadcrumbs from '@/components/ui/Breadcrumbs';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -30,22 +31,9 @@ export default async function PostPage({ params }: Props) {
   const altText = hero?.alt || post.title;
 
   return (
-    <article className="max-w-3xl mx-auto px-6 py-20 font-sans">
-      <Link 
-          href="/" 
-          className="text-sm text-slate-500 hover:text-slate-800 mb-8 inline-block transition-colors"
-        >
-          ← Strona Główna
-      </Link>
-      {' '}
-      <Link 
-        href="/blog" 
-        className="text-sm text-slate-500 hover:text-slate-800 mb-8 inline-block transition-colors"
-      >
-        / Powrót do listy
-      </Link>
-      
+    <article className="max-w-3xl mx-auto px-6 py-20 font-sans"> 
       <header className="mb-10">
+        <Breadcrumbs/>
         <div className="flex items-center gap-3 mb-4">
           <time className="text-sm text-slate-400">
             {new Date(post.publishedDate || post.createdAt).toLocaleDateString('pl-PL', {

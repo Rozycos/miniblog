@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getPosts } from '@/lib/payload';
 import { Metadata } from 'next';
+import Breadcrumbs from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Mój Blog - Najnowsze Artykuły',
@@ -13,12 +14,7 @@ export default async function BlogPage() {
 
   return (
     <main className="max-w-6xl mx-auto px-6 py-20 font-sans">
-      <Link 
-          href="/" 
-          className="text-sm text-slate-500 hover:text-slate-800 mb-8 inline-block transition-colors"
-        >
-          ← Strona Główna
-      </Link>
+      <Breadcrumbs/>
       <header className="mb-16">
         <h1 className="text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
           LISTA ARTUKUŁÓW
