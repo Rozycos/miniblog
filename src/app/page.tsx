@@ -1,6 +1,8 @@
-import Image from 'next/image';
+//import Image from 'next/image';
 import Link from 'next/link';
-import { getPosts } from '@/lib/payload';
+//import { getPosts } from '@/lib/payload';
+import PostList from '@/components/blog/PostList';
+import { Suspense } from 'react';
 // import { Metadata } from 'next';
 
 // jeśli chcę mieć meta i title dla głównej strony, inny niż w layout.tsx
@@ -9,8 +11,7 @@ import { getPosts } from '@/lib/payload';
 //   description: 'Zapraszam do czytania moich wpisów na temat technologii i nie tylko.',
 // };
 
-export default async function BlogPage() {
-  const { posts } = await getPosts(1);
+export default async function MainPage() {
 
   return (
     <main className="max-w-6xl mx-auto px-6 py-20 font-sans">
@@ -40,52 +41,23 @@ export default async function BlogPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-12">
-        <h2>POSTY</h2>
-        {posts.map((post) => (
-          <article key={post.id} className="group flex flex-col md:flex-row gap-8 items-start">
-            {/* Miniaturka */}
-            <div className="w-full md:w-1/3 aspect-video relative overflow-hidden rounded-2xl bg-slate-100 shadow-sm">
-              <Image
-                // Używamy miniatury (400x300), jeśli istnieje, dla lepszej wydajności listy
-                src={post.heroImage.sizes?.thumbnail?.url || post.heroImage.url}
-                alt={post.heroImage.alt || post.title}
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-                sizes="(max-width: 768px) 100vw, 33vw"
-              />
-            </div>
-
-            {/* Treść */}
-            <div className="flex-1">
-              <div className="flex items-center gap-3 mb-3">
-                <time className="text-sm text-slate-400">
-                  {new Date(post.publishedDate || post.createdAt).toLocaleDateString('pl-PL')}
-                </time>
-                <span className="h-1 w-1 rounded-full bg-slate-300"></span>
-                <span className="text-xs font-medium text-blue-600 uppercase tracking-wider">Artykuł</span>
-              </div>
-              
-              <Link href={`/blog/${post.slug}`}>
-                <h2 className="text-2xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors">
-                  {post.title}
-                </h2>
-              </Link>
-              
-              <p className="text-slate-600 leading-relaxed mb-6 line-clamp-2">
-                {post.excerpt}
-              </p>
-              
-              <Link 
-                href={`/blog/${post.slug}`}
-                className="text-sm font-bold text-slate-900 group-hover:gap-2 flex items-center gap-1 transition-all"
-              >
-                Czytaj dalej <span>→</span>
-              </Link>
-            </div>
-          </article>
-        ))}
-      </div>
+      <section>
+        <h2 className="text-3xl font-bold text-slate-900 mb-10">Najnowsze Posty</h2>
+        
+        {/* Wrapujemy w Suspense, aby strona ładowała się szybciej (opcjonalnie) */}
+        <Suspense fallback={<p className="text-slate-500 animate-pulse">Ładowanie artykułów...</p>}>
+          <PostList limit={4} />
+        </Suspense>
+        
+        <div className="mt-12">
+          <Link 
+            href="/blog" 
+            className="inline-block bg-slate-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-600 transition-colors"
+          >
+            Zobacz wszystkie artykuły
+          </Link>
+        </div>
+      </section>
     </main>
   );
 }
