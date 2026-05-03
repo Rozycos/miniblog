@@ -10,5 +10,9 @@
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
+  },
+  "vars": {
+    "NEXT_PUBLIC_SITE_URL": "https://miniblog.rozycos.workers.dev",
+    "PAYLOAD_API_URL": "https://payloadadmin.vercel.app/api"
   }
 }

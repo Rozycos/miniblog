@@ -46,24 +46,24 @@ export default function Breadcrumbs() {
           Strona Główna
         </Link>
         {pathSegments.map((segment, index) => {
-  const href = `/${pathSegments.slice(0, index + 1).join("/")}`;
-  const isLast = index === pathSegments.length - 1;
+        const href = `/${pathSegments.slice(0, index + 1).join("/")}`;
+        const isLast = index === pathSegments.length - 1;
 
-  return (
-    <span key={href} className="flex items-center">
-      <span className="mx-2">/</span>
-      {isLast ? (
-        <span className="font-medium text-slate-800 capitalize">
-          {segment.replace(/-/g, " ")}
-        </span>
-      ) : (
-        <Link href={href} className="hover:text-slate-800 transition-colors capitalize">
-          {segment.replace(/-/g, " ")}
-        </Link>
-      )}
-    </span>
-  );
-})}
+        return (
+            <span key={href} className="flex items-center">
+            <span className="mx-2">/</span>
+            {isLast ? (
+                <span className="font-medium text-slate-800 capitalize">
+                {segment.replace(/-/g, " ")}
+                </span>
+            ) : (
+                <Link href={href} className="hover:text-slate-800 transition-colors capitalize">
+                {segment.replace(/-/g, " ")}
+                </Link>
+            )}
+            </span>
+        );
+        })}
       </div>
     </nav>
   );
