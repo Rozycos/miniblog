@@ -2,6 +2,7 @@ import { getPosts } from '@/lib/payload';
 import Breadcrumbs from '@/components/ui/Breadcrumbs';
 import Pagination from '@/components/ui/Pagination';
 import PostList from '@/components/blog/PostList';
+import { ROUTES } from '@/lib/routes';
 
 interface BlogPageProps {
   searchParams: Promise<{ page?: string }>;
@@ -32,7 +33,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
         totalPages={totalPages}
         hasNextPage={hasNextPage}
         hasPrevPage={hasPrevPage}
-        baseUrl="/blog"
+        baseUrl={ROUTES.blog.index}
       />
     </main>
   );

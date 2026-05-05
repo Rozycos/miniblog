@@ -4,6 +4,7 @@ import Link from 'next/link';
 import PostList from '@/components/blog/PostList';
 import { Suspense } from 'react';
 // import { Metadata } from 'next';
+import { ROUTES } from '@/lib/routes';
 
 // jeśli chcę mieć meta i title dla głównej strony, inny niż w layout.tsx
 // export const metadata: Metadata = {
@@ -51,7 +52,7 @@ export default async function MainPage() {
         
         <div className="mt-12">
           <Link 
-            href="/blog" 
+            href={ROUTES.blog.index}
             className="inline-block bg-slate-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-600 transition-colors"
           >
             Zobacz wszystkie artykuły

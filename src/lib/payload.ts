@@ -29,18 +29,31 @@ export async function getPosts(page: number = 1, limit: number = 2) {
 }
 
 /**
- * Pobiera pojedynczy post na podstawie sluga
+ * POBIERANIE PO ID (Kluczowe dla struktury slug,idID)
  */
-export async function getPostBySlug(slug: string): Promise<Post | null> {
-  // Dekodujemy tutaj raz a dobrze
-  const cleanSlug = decodeURIComponent(slug);
-  
-  const res = await fetch(`${PAYLOAD_API_URL}/posts?where[slug][equals]=${cleanSlug}&depth=2`, {
-    next: { revalidate: 60 }
-  });
+export async function getPostById(id: string): Promise<Post | null> {
+  try {
+    // Używamy filtra where, aby wymusić status 'published'
+    const res = await fetch(
+      `${PAYLOAD_API_URL}/posts?where[id][equals]=${id}&where[status][equals]=published&depth=2`,
+      { next: { revalidate: 3600 } }
+    );
 
-  if (!res.ok) throw new Error('Błąd podczas pobierania posta');
+    if (!res.ok) return null;
+    const data = await res.json();
+    
+    return data.docs?.[0] || null;
+  } catch (error) {
+    console.error("Błąd getPostById:", error);
+    return null;
+  }
+}
+
+// Zachowujemy dla kompatybilności (do starego SEO itp.)
+export async function getPostBySlug(slug: string): Promise<Post | null> {
+  const res = await fetch(
+    `${PAYLOAD_API_URL}/posts?where[slug][equals]=${slug}&where[status][equals]=published&depth=2`
+  );
   const data = await res.json();
-  
   return data.docs?.[0] || null;
 }

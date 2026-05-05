@@ -1,30 +1,52 @@
 import Image from 'next/image';
-//import Link from 'next/link';
-import { notFound } from 'next/navigation';
-import { getPostBySlug } from '@/lib/payload';
-// Importujemy komponent RichText z nowej biblioteki
+import { notFound, redirect } from 'next/navigation';
+import { getPostById } from '@/lib/payload'; 
 import { RichText } from '@payloadcms/richtext-lexical/react';
-//import { generatePostMetadata } from '@/lib/seo' // importujemy nasz helper
-import { getPostMetadataBySlug } from '@/lib/seo'
-import { Metadata } from 'next'
+import { Metadata } from 'next';
 import Breadcrumbs from '@/components/ui/Breadcrumbs';
+import { getPostMetadataById } from '@/lib/seo';
+import { ROUTES } from '@/lib/routes';
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
+/**
+ * Funkcja pomocnicza do wyciągania ID
+ */
+function parseSlugWithId(rawSlug: string) {
+  const decoded = decodeURIComponent(rawSlug);
+  if (!decoded.includes(',id')) return { titlePart: null, id: null };
+  
+  const [titlePart, id] = decoded.split(',id');
+  return { titlePart, id };
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params
-  return getPostMetadataBySlug(slug)
+  const { slug } = await params;
+  return getPostMetadataById(slug);
 }
 
 export const revalidate = 3600;
 
 export default async function PostPage({ params }: Props) {
-  const { slug } = await params
-  const post = await getPostBySlug(slug)
+  const { slug: rawSlug } = await params;
+  
+  // 1. Rozcinamy URL
+  const { titlePart, id } = parseSlugWithId(rawSlug);
+  
+  if (!id) notFound();
 
-  if (!post) notFound()
+  // 2. Pobieramy dane po ID
+  const post = await getPostById(id);
+
+  if (!post) notFound();
+
+  // 3. SEO CHECK: Jeśli ktoś ręcznie zmienił slug w adresie, ale ID jest dobre, 
+  // przekierowujemy na poprawny adres (kanoniczny).
+  if (post.slug !== titlePart) {
+    redirect(`${ROUTES.blog.index}/${post.slug},id${post.id}`);
+  }
 
   const hero = post.heroImage;
   const imageUrl = hero?.url || '';
@@ -66,12 +88,9 @@ export default async function PostPage({ params }: Props) {
         </div>
       )}
 
-      {/* --- NOWE RENDEROWANIE TREŚCI --- */}
       <div className="prose prose-slate lg:prose-xl max-w-none">
-        {/* Wystarczy podać post.content. RichText zajmie się resztą. */}
         {post.content && <RichText data={post.content} />}
       </div>
-      {/* ------------------------------ */}
       
       <footer className="mt-16 pt-8 border-t border-slate-100">
         <p className="text-sm text-slate-400 italic">
