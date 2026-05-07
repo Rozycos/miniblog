@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { Post } from '@/types/payload'
+import { Post, isObject } from '@/types/payload'
 import { getPostById } from './payload'
 
 /**
@@ -15,9 +15,9 @@ export function generatePostMetadata(post: Post): Metadata {
   
   // 3. Wybieramy obrazek do social mediów (Meta Image > Hero Image > null)
   let seoImage = '';
-  if (post.meta?.image && typeof post.meta.image === 'object' && post.meta.image.url) {
+  if (post.meta?.image && isObject(post.meta.image) && post.meta.image.url) {
     seoImage = post.meta.image.url;
-  } else if (post.heroImage?.url) {
+  } else if (post.heroImage && isObject(post.heroImage) && post.heroImage.url) {
     seoImage = post.heroImage.url;
   }
 
