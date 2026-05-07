@@ -1,11 +1,13 @@
 import Image from 'next/image';
 import { notFound, redirect } from 'next/navigation';
 import { getPostById } from '@/lib/payload'; 
-import { RichText } from '@payloadcms/richtext-lexical/react';
+//import { RichText } from '@payloadcms/richtext-lexical/react';// usage <RichText data={post.content} />}
 import { Metadata } from 'next';
 import Breadcrumbs from '@/components/ui/Breadcrumbs';
 import { getPostMetadataById } from '@/lib/seo';
 import { ROUTES } from '@/lib/routes';
+import { RichTextRenderer } from '@/components/RichText/RichTextRenderer'; //usage: <RichTextRenderer content={post.content} /> zamiast <RichText data={post.content} />}
+import { isObject } from '@/types/payload';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -48,9 +50,10 @@ export default async function PostPage({ params }: Props) {
     redirect(`${ROUTES.blog.index}/${post.slug},id${post.id}`);
   }
 
-  const hero = post.heroImage;
+  const hero = isObject(post.heroImage) ? post.heroImage : null;
   const imageUrl = hero?.url || '';
   const altText = hero?.alt || post.title;
+  const author = isObject(post.author) ? post.author : null;
 
   return (
     <article className="max-w-3xl mx-auto px-6 py-20 font-sans"> 
@@ -64,9 +67,9 @@ export default async function PostPage({ params }: Props) {
               day: 'numeric'
             })}
           </time>
-          {post.author?.username && (
+          {author?.username && (
             <span className="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">
-              Autor: {post.author.username}
+              Autor: {author.username}
             </span>
           )}
         </div>
@@ -89,7 +92,8 @@ export default async function PostPage({ params }: Props) {
       )}
 
       <div className="prose prose-slate lg:prose-xl max-w-none">
-        {post.content && <RichText data={post.content} />}
+        {post.content && 
+        <RichTextRenderer content={post.content} />} 
       </div>
       
       <footer className="mt-16 pt-8 border-t border-slate-100">

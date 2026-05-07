@@ -8723,7 +8723,7 @@ snapshots:
       tsx: 4.21.0
       undici: 7.24.4
       uuid: 11.1.0
-      ws: 8.18.0
+      ws: 8.20.0
     transitivePeerDependencies:
       - bufferutil
       - supports-color
