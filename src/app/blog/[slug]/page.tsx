@@ -3,7 +3,7 @@ import { notFound, redirect } from 'next/navigation';
 import { getPostById } from '@/lib/payload/payload'; 
 //import { RichText } from '@payloadcms/richtext-lexical/react';// usage <RichText data={post.content} />}
 import { Metadata } from 'next';
-import Breadcrumbs from '@/components/ui/Breadcrumbs';
+import BlogBreadcrumbs from '@/components/blog/BlogBreadcrumbs';
 import { getPostMetadataById } from '@/lib/seo';
 import { ROUTES } from '@/lib/routes';
 import { RichTextRenderer } from '@/components/RichText/RichTextRenderer'; //usage: <RichTextRenderer content={post.content} /> zamiast <RichText data={post.content} />}
@@ -58,7 +58,7 @@ export default async function PostPage({ params }: Props) {
   return (
     <article className="max-w-3xl mx-auto px-6 py-20 font-sans"> 
       <header className="mb-10">
-        <Breadcrumbs/>
+        <BlogBreadcrumbs/>
         <div className="flex items-center gap-3 mb-4">
           <time className="text-sm text-slate-400">
             {new Date(post.publishedDate || post.createdAt).toLocaleDateString('pl-PL', {

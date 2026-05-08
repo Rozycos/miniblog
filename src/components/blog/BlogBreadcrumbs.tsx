@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
-export default function Breadcrumbs() {
+export default function BlogBreadcrumbs() {
   const pathname = usePathname();
   const pathSegments = pathname.split("/").filter((v) => v);
 

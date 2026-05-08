@@ -8,7 +8,7 @@ interface PaginationProps {
   baseUrl: string;
 }
 
-export default function Pagination({
+export default function BlogPagination({
   currentPage,
   totalPages,
   hasNextPage,

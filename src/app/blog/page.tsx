@@ -1,6 +1,6 @@
 import { getPosts } from '@/lib/payload/payload';
-import Breadcrumbs from '@/components/ui/Breadcrumbs';
-import Pagination from '@/components/ui/Pagination';
+import BlogBreadcrumbs from '@/components/blog/BlogBreadcrumbs';
+import BlogPagination from '@/components/blog/BlogPagination';
 import PostList from '@/components/blog/PostList';
 import { ROUTES } from '@/lib/routes';
 
@@ -18,7 +18,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 
   return (
     <main className="max-w-6xl mx-auto px-6 py-20 font-sans">
-      <Breadcrumbs />
+      <BlogBreadcrumbs />
       <header className="mb-16">
         <h1 className="text-5xl font-extrabold text-slate-900 mb-4 tracking-tight uppercase">
           Lista Artykułów
@@ -28,7 +28,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
       {/* Przekazujemy gotowe posty do komponentu */}
       <PostList posts={posts} />
 
-      <Pagination 
+      <BlogPagination 
         currentPage={currentPage}
         totalPages={totalPages}
         hasNextPage={hasNextPage}
