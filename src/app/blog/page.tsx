@@ -1,4 +1,4 @@
-import { getPosts } from '@/lib/payload';
+import { getPosts } from '@/lib/payload/payload';
 import Breadcrumbs from '@/components/ui/Breadcrumbs';
 import Pagination from '@/components/ui/Pagination';
 import PostList from '@/components/blog/PostList';

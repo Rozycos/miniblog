@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { getPosts, type Post } from '@/lib/payload'; // Dodałem type dla czystości
+import { getPosts, type Post } from '@/lib/payload/payload'; // Dodałem type dla czystości
 import { ROUTES } from '@/lib/routes';
 import { isObject } from '@/types/payload';
 

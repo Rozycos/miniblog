@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { notFound, redirect } from 'next/navigation';
-import { getPostById } from '@/lib/payload'; 
+import { getPostById } from '@/lib/payload/payload'; 
 //import { RichText } from '@payloadcms/richtext-lexical/react';// usage <RichText data={post.content} />}
 import { Metadata } from 'next';
 import Breadcrumbs from '@/components/ui/Breadcrumbs';

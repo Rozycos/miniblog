@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { Post, isObject } from '@/types/payload'
-import { getPostById } from './payload'
+import { getPostById } from './payload/payload'
 
 /**
  * Generuje obiekt Metadata na podstawie gotowego obiektu Post.
